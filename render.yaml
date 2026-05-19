@@ -12,11 +12,14 @@ services:
       - key: PORT
         value: 5000
       - key: CLIENT_URL
-        value: https://erp-portal.onrender.com
+        fromService:
+          type: web
+          name: erp-portal
+          property: host
       - key: JWT_EXPIRES_IN
         value: 1d
       - key: JWT_SECRET
-        sync: false
+        generateValue: true
       - key: MONGO_URI
         sync: false
       - key: CLOUDINARY_CLOUD_NAME

@@ -15,7 +15,12 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim())
-  .filter(Boolean);
+  .filter(Boolean)
+  .map((origin) => {
+    if (origin === '*') return origin;
+    if (origin.startsWith('http://') || origin.startsWith('https://')) return origin;
+    return `https://${origin}`;
+  });
 
 app.use(helmet());
 app.use(
@@ -33,7 +38,7 @@ app.use('/api', routes);
 
 const publicDir = path.resolve(__dirname, '..', 'public');
 app.use(express.static(publicDir));
-app.get('*', (req, res, next) => {
+app.get('/{*splat}', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
   return res.sendFile(path.join(publicDir, 'index.html'));
 });
