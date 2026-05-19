@@ -1,0 +1,22 @@
+{
+  "name": "erp-portal",
+  "description": "Production-ready ERP SaaS portal for coaching classes.",
+  "repository": "https://github.com/RecklessEvadingDriver/Erp",
+  "logo": "https://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "react", "vite", "mongodb", "erp"],
+  "env": {
+    "NODE_ENV": { "value": "production" },
+    "PORT": { "value": "5000" },
+    "MONGO_URI": { "description": "MongoDB Atlas connection string" },
+    "JWT_SECRET": { "description": "Strong random JWT secret" },
+    "JWT_EXPIRES_IN": { "value": "1d" },
+    "CLIENT_URL": { "description": "Frontend base URL" },
+    "CLOUDINARY_CLOUD_NAME": { "description": "Cloudinary cloud name" },
+    "CLOUDINARY_API_KEY": { "description": "Cloudinary API key" },
+    "CLOUDINARY_API_SECRET": { "description": "Cloudinary API secret" }
+  },
+  "formation": { "web": { "quantity": 1, "size": "basic" } },
+  "buildpacks": [
+    { "url": "heroku/nodejs" }
+  ]
+}
