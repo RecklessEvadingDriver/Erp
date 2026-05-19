@@ -13,11 +13,14 @@ export default function StudentsPage() {
   }), [query, status]);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/90">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-semibold">Student Management</h2>
+        <div>
+          <h2 className="text-lg font-semibold">Student Management</h2>
+          <p className="text-xs text-slate-500">{rows.length} records shown</p>
+        </div>
         <div className="flex gap-2">
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search" className="rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name, id, course" className="rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm outline-none dark:border-slate-700" />
           <select value={status} onChange={(e) => setStatus(e.target.value)} className="rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm dark:border-slate-700">
             <option value="all">All</option>
             <option value="Active">Active</option>
@@ -25,25 +28,25 @@ export default function StudentsPage() {
           </select>
         </div>
       </div>
-      <div className="overflow-auto">
+      <div className="overflow-auto rounded-xl border border-slate-200 dark:border-slate-800">
         <table className="w-full text-left text-sm">
-          <thead>
+          <thead className="bg-slate-50 dark:bg-slate-800/80">
             <tr className="border-b border-slate-200 text-slate-500 dark:border-slate-700">
-              <th className="py-2">Admission ID</th>
-              <th>Name</th>
-              <th>Course</th>
-              <th>Batch</th>
-              <th>Status</th>
+              <th className="px-3 py-2">Admission ID</th>
+              <th className="px-3 py-2">Name</th>
+              <th className="px-3 py-2">Course</th>
+              <th className="px-3 py-2">Batch</th>
+              <th className="px-3 py-2">Status</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.id} className="border-b border-slate-100 dark:border-slate-800">
-                <td className="py-2">{r.id}</td>
-                <td>{r.name}</td>
-                <td>{r.course}</td>
-                <td>{r.batch}</td>
-                <td>{r.status}</td>
+              <tr key={r.id} className="border-b border-slate-100 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50">
+                <td className="px-3 py-2 font-medium">{r.id}</td>
+                <td className="px-3 py-2">{r.name}</td>
+                <td className="px-3 py-2">{r.course}</td>
+                <td className="px-3 py-2">{r.batch}</td>
+                <td className="px-3 py-2"><span className={`rounded-full px-2 py-1 text-xs ${r.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300'}`}>{r.status}</span></td>
               </tr>
             ))}
           </tbody>

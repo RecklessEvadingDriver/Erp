@@ -132,10 +132,45 @@ Frontend (`frontend/.env`):
 - `VITE_API_URL`
 - `VITE_SOCKET_URL`
 
-## Docker Support
+## Docker Deployment (Full Website)
+
+### 1) Configure environment
 
 ```bash
-docker compose up --build
+cp .env.example .env
+```
+
+Edit `.env` and set at minimum:
+- `JWT_SECRET` to a strong random secret
+- Cloudinary keys if you will use upload APIs
+
+### 2) Build and run full stack (app + MongoDB)
+
+```bash
+docker compose up -d --build
+```
+
+This starts:
+- `erp-app` (Node backend + built frontend served from `backend/public`)
+- `erp-mongo` (MongoDB with persisted volume `mongo_data`)
+
+### 3) Access application
+
+- App URL: `http://localhost:5000`
+- Health check: `http://localhost:5000/health`
+
+### 4) Logs and lifecycle
+
+```bash
+docker compose logs -f erp
+docker compose ps
+docker compose down
+```
+
+### 5) Clean reset (including database volume)
+
+```bash
+docker compose down -v
 ```
 
 ## Heroku Deployment (Complete)
@@ -239,3 +274,27 @@ npm start
 ## Notes
 
 This repository provides a clean scalable ERP SaaS foundation with enterprise-style UX and extensible module architecture for deeper business workflows (exams, assignments, reports, backup scheduler, and advanced chatbot integrations).
+
+
+## Render Deployment
+
+### Quick deploy
+
+1. Push this repository to GitHub.
+2. In Render, create a new **Web Service** from the repo.
+3. Render will detect `render.yaml` automatically (Blueprint deploy).
+4. Set these secret env vars in Render dashboard:
+   - `JWT_SECRET`
+   - `MONGO_URI`
+   - `CLOUDINARY_CLOUD_NAME` (optional)
+   - `CLOUDINARY_API_KEY` (optional)
+   - `CLOUDINARY_API_SECRET` (optional)
+
+### MongoDB Atlas
+
+- Make sure Atlas Network Access allows Render outbound IPs (or temporarily `0.0.0.0/0` for testing).
+- Use DB-specific URI format, e.g. `mongodb+srv://<user>:<pass>@<cluster>/erp?...`.
+
+### Local `.env`
+
+A local `.env` has been prepared for your provided Atlas connection string. Update `CLIENT_URL` and `JWT_SECRET` before production use.
